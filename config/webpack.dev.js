@@ -1,6 +1,7 @@
 const path = require("path");
 const { getThemeVariables } = require("antd/dist/theme");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
 
 module.exports = {
@@ -39,8 +40,8 @@ module.exports = {
               getCustomTransformers: () => ({
                 before: [
                   tsImportPluginFactory({
-                    libraryName: "antd",
-                    libraryDirectory: "lib",
+                    libraryName: "antd/es/**/*",
+                    libraryDirectory: "es",
                     style: true,
                   }),
                 ],
@@ -79,6 +80,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/frontend/index.html",
     }),
+    new CleanWebpackPlugin(),
   ],
   devServer: {
     writeToDisk: true,
