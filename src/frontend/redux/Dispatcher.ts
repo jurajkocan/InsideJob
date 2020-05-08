@@ -20,7 +20,10 @@ export const dispatcher = (() => {
         });
       } catch (err) {
         console.log(err);
-        dispatch({ type: ActionTypes.FETCH_PEOPLE_FAIL });
+        dispatch({
+          type: ActionTypes.FETCH_PEOPLE_FAIL,
+          payload: { err: err },
+        });
       }
     },
     fetchPerson: async (

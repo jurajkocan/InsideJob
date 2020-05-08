@@ -4,6 +4,7 @@ export type UserState = {
   list: People | null;
   detail: User | null;
   peopleListFetching: boolean;
+  err: any;
 };
 
 export type State = {
@@ -15,5 +16,6 @@ export const defaultState: State = {
     detail: null,
     list: null,
     peopleListFetching: false,
+    err: null,
   },
 };

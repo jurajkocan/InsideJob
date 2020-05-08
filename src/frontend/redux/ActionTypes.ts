@@ -42,6 +42,9 @@ export namespace AllActions {
 
   export type FetchPeopleFail = {
     type: ActionTypes.FETCH_PEOPLE_FAIL;
+    payload: {
+      err: any;
+    };
   };
 
   export type FetchPerson = {
