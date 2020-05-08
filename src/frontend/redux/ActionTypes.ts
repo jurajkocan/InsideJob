@@ -1,3 +1,5 @@
+import { People } from "src/api/types/People";
+
 export enum ActionTypes {
   FETCH_PEOPLE = "FETCH_PEOPLE",
   FETCH_PEOPLE_SUCCESS = "FETCH_PEOPLE_SUCCESS",
@@ -27,6 +29,19 @@ export enum ActionTypes {
 export namespace AllActions {
   export type FetchPeople = {
     type: ActionTypes.FETCH_PEOPLE;
+    payload: {
+      filter?: {
+        [key: string]: string;
+      };
+    };
+  };
+  export type FetchPeopleSuccess = {
+    type: ActionTypes.FETCH_PEOPLE_SUCCESS;
+    payload: People;
+  };
+
+  export type FetchPeopleFail = {
+    type: ActionTypes.FETCH_PEOPLE_FAIL;
   };
 
   export type FetchPerson = {
@@ -37,4 +52,8 @@ export namespace AllActions {
   };
 }
 
-export type Actions = AllActions.FetchPeople | AllActions.FetchPerson;
+export type Actions =
+  | AllActions.FetchPeople
+  | AllActions.FetchPeopleSuccess
+  | AllActions.FetchPeopleFail
+  | AllActions.FetchPerson;

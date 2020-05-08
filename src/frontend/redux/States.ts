@@ -1,8 +1,8 @@
-import { People, Person } from "src/api/types/People";
+import { People, User } from "src/api/types/People";
 
 export type UserState = {
   list: People | null;
-  detail: Person | null;
+  detail: User | null;
   peopleListFetching: boolean;
 };
 

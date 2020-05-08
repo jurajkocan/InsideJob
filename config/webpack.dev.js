@@ -26,6 +26,7 @@ module.exports = {
     alias: {
       src: path.resolve(__dirname, "../src/"),
       config: path.resolve(__dirname, "../config/"),
+      assets: path.resolve(__dirname, "../assets/"),
     },
   },
   module: {
@@ -40,7 +41,7 @@ module.exports = {
               getCustomTransformers: () => ({
                 before: [
                   tsImportPluginFactory({
-                    libraryName: "antd/es/**/*",
+                    libraryName: "antd",
                     libraryDirectory: "es",
                     style: true,
                   }),
@@ -63,16 +64,25 @@ module.exports = {
             loader: "less-loader", // compiles Less to CSS
             options: {
               lessOptions: {
-                // If you are using less-loader@5 please spread the lessOptions to options directly
-                modifyVars: getThemeVariables({
-                  dark: true,
-                  compact: true,
-                }),
+                modifyVars: {
+                  ...getThemeVariables({
+                    dark: true,
+                    compact: true,
+                  }),
+                  "font-size-base": "16px",
+                },
                 javascriptEnabled: true,
               },
             },
           },
         ],
+      },
+      {
+        test: /\.(jpg|png|svg)$/,
+        loader: "file-loader",
+        options: {
+          name: "[path][name].[hash].[ext]",
+        },
       },
     ],
   },

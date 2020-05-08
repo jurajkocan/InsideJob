@@ -26,7 +26,7 @@ export const RouterApp = () => (
           />
           <Route
             exact
-            path={Roots.UserDetail}
+            path={Roots.UserDetailWithParam}
             component={lazy(() => import("./pages/UserDetail"))}
           />
           <Route component={lazy(() => import("./pages/404"))} />

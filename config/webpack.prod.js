@@ -6,7 +6,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
-const Visualizer = require("webpack-visualizer-plugin");
+
+// const Visualizer = require("webpack-visualizer-plugin");
 
 module.exports = {
   mode: "production",
@@ -69,10 +70,13 @@ module.exports = {
             loader: "less-loader", // compiles Less to CSS
             options: {
               lessOptions: {
-                modifyVars: getThemeVariables({
-                  dark: true,
-                  compact: true,
-                }),
+                modifyVars: {
+                  ...getThemeVariables({
+                    dark: true,
+                    compact: true,
+                  }),
+                  "font-size-base": "16px",
+                },
                 javascriptEnabled: true,
               },
             },
@@ -91,7 +95,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new CompressionPlugin(),
-    new Visualizer(),
+    // new Visualizer(),
   ],
   devServer: {
     writeToDisk: true,

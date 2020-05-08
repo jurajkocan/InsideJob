@@ -1,9 +1,12 @@
 export const Roots = {
   Home: "/",
-  UserList: "/user",
-  UserDetail: "/user/:id",
-  FilmList: "/film",
+  UserList: "/people",
+  UserDetail: "/user",
+  UserDetailWithParam: "/user/:id",
+  FilmList: "/films",
   FilmDetail: "film/:id",
-  StarshipList: "/starship",
-  StarshipDetail: "/starship/:id",
+  FilmDetailWithParma: "film/:id",
+  StarshipList: "/starships",
+  StarshipDetail: "/starship/",
+  StarshipDetailWithParam: "/starship/:id",
 };

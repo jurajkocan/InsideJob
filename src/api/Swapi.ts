@@ -7,20 +7,25 @@ export const swapi = (() => {
 
   return {
     /**
-     * @param param  id or filter
+     * @param param  id and (or) filter
      */
     getPeople: async (
-      param?: number | object | undefined,
+      id?: number,
+      filter?: { [key: string]: string },
       config?: AxiosRequestConfig
     ) => {
       const baseUrl = "/people";
-      const paramUrl =
-        typeof param === "number"
-          ? `/${param}`
-          : typeof param === "object"
-          ? `/${JSON.stringify(param)}`
+      const paramUrl = typeof id !== "undefined" ? `/${id}` : "";
+      // TODO: filter query
+      const filterUrl =
+        typeof filter !== "undefined"
+          ? "?" +
+            Object.keys(filter)
+              .map((key) => key + "=" + filter[key])
+              .join("&")
           : "";
-      const url = baseUrl + paramUrl;
+
+      const url = baseUrl + paramUrl + filterUrl;
       return swapiInstance.get<People>(url, config);
     },
   };

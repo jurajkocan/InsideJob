@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { withRouter, RouteComponentProps, Link, Route } from "react-router-dom";
 import { Layout, Menu } from "antd";
+import logo from "assets/images/logo.png";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -27,15 +28,17 @@ const masterPageStyle = {
 
   logo: style({
     height: 32,
-    background: "rgba(255, 255, 255, 0.2)",
     margin: "16px",
   }),
 };
 
 const { Header, Sider, Content } = Layout;
 const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
-  const [collapsed, setCollapsed] = useState(false);
-
+  const [collapsed, setCollapsed] = useState(
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+  );
   let selectedMenuKey: string[] = [];
   switch (props.location.pathname) {
     case Roots.UserList:
@@ -54,13 +57,13 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
     <Layout style={{ height: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <Link to={Roots.Home}>
-          <div className={masterPageStyle.logo} />
+          <img className={masterPageStyle.logo} src={logo} />
         </Link>
         <Menu
           theme="dark"
           mode="inline"
           selectedKeys={selectedMenuKey}
-          defaultSelectedKeys={[]}
+          defaultSelectedKeys={selectedMenuKey}
         >
           <Menu.Item
             onClick={() => props.history.push(Roots.UserList)}
@@ -85,8 +88,10 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
+      <Layout>
+        <Header
+          style={{ padding: 0, position: "fixed", width: "100%", zIndex: 1 }}
+        >
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
@@ -98,9 +103,8 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
           <span> Did you ever hear the tragedy of Darth Plagueis The Wise</span>
         </Header>
         <Content
-          className="site-layout-background"
           style={{
-            margin: "24px 16px",
+            margin: "56px 16px 24px 16px",
             padding: 24,
             minHeight: 280,
           }}

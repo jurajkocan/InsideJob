@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "target": "es5",
-    "lib": ["es2019", "es2017", "es2015", "es2016", "dom", "es6"],
+    "target": "ES2015",
+    "lib": ["es2019", "es2018", "es2017", "es2015", "es2016", "dom", "es6"],
     "esModuleInterop": true,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
@@ -14,15 +14,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react",
-    // "noUnusedLocals": true,
     "noUnusedParameters": true,
     "baseUrl": "./",
     "paths": {
       "src/*": ["src/*"],
-      "config/*": ["config/*"]
+      "config/*": ["config/*"],
+      "assets/*": ["assets/*"]
     }
   },
-
   "include": ["src/**/*"],
   "exclude": ["dist", "node_modules"]
 }
