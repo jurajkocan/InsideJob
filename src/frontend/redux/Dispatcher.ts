@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { Actions, ActionTypes, AllActions } from "./ActionTypes";
 import { swapi } from "src/api/Swapi";
+import { PeopleListFilter } from "src/mock/Filters";
 
 export const dispatcher = (() => {
   return {
@@ -16,7 +17,10 @@ export const dispatcher = (() => {
         );
         dispatch({
           type: ActionTypes.FETCH_PEOPLE_SUCCESS,
-          payload: response.data,
+          payload: {
+            ...response.data,
+            filters: PeopleListFilter, // MOCK FILTERS SINCE THERE ARE NO FILTERS IN API
+          },
         });
       } catch (err) {
         console.log(err);
@@ -30,8 +34,20 @@ export const dispatcher = (() => {
       dispatch: Dispatch<Actions>,
       action: AllActions.FetchPerson
     ) => {
-      const a = dispatch;
-      const b = action;
+      dispatch(action);
+      try {
+        const response = await swapi.getPeople(action.payload.id);
+        dispatch({
+          type: ActionTypes.FETCH_PERSON_SUCCESS,
+          payload: response.data,
+        });
+      } catch (err) {
+        console.log(err);
+        dispatch({
+          type: ActionTypes.FETCH_PERSON_FAIL,
+          payload: { err: err },
+        });
+      }
     },
   };
 })();

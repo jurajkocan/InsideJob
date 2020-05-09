@@ -21,13 +21,13 @@ export const RouterApp = () => (
           />
           <Route
             exact
-            path={Roots.UserList}
-            component={lazy(() => import("./pages/UserList"))}
+            path={Roots.PersonList}
+            component={lazy(() => import("./pages/PersonList"))}
           />
           <Route
             exact
-            path={Roots.UserDetailWithParam}
-            component={lazy(() => import("./pages/UserDetail"))}
+            path={Roots.PersonDetailWithParam}
+            component={lazy(() => import("./pages/PersonDetail"))}
           />
           <Route component={lazy(() => import("./pages/404"))} />
         </Switch>

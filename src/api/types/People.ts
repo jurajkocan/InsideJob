@@ -1,6 +1,6 @@
 import { List } from "./List";
 
-export type User = {
+export type Person = {
   name: string;
   height: string;
   mass: string;
@@ -19,4 +19,4 @@ export type User = {
   url: string;
 };
 
-export type People = List<User>;
+export type People = List<Person>;

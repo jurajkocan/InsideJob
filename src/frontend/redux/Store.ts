@@ -13,7 +13,7 @@ const appliedReduxMiddleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
 
 export const store = createStore<State, Actions, {}, {}>(
   combineReducers({
-    user: PeopleReducer,
+    person: PeopleReducer,
   }),
   defaultState,
   appliedReduxMiddleware

@@ -1,4 +1,5 @@
-import { People } from "src/api/types/People";
+import { People, Person } from "src/api/types/People";
+import { Action } from "redux";
 
 export enum ActionTypes {
   FETCH_PEOPLE = "FETCH_PEOPLE",
@@ -30,9 +31,7 @@ export namespace AllActions {
   export type FetchPeople = {
     type: ActionTypes.FETCH_PEOPLE;
     payload: {
-      filter?: {
-        [key: string]: string;
-      };
+      filter?: string;
     };
   };
   export type FetchPeopleSuccess = {
@@ -50,7 +49,19 @@ export namespace AllActions {
   export type FetchPerson = {
     type: ActionTypes.FETCH_PERSON;
     payload: {
-      id?: number;
+      id: number;
+    };
+  };
+
+  export type FetchPersonSuccess = {
+    type: ActionTypes.FETCH_PERSON_SUCCESS;
+    payload: Person;
+  };
+
+  export type FetchPersonFail = {
+    type: ActionTypes.FETCH_PERSON_FAIL;
+    payload: {
+      err: any;
     };
   };
 }
@@ -59,4 +70,6 @@ export type Actions =
   | AllActions.FetchPeople
   | AllActions.FetchPeopleSuccess
   | AllActions.FetchPeopleFail
-  | AllActions.FetchPerson;
+  | AllActions.FetchPerson
+  | AllActions.FetchPersonSuccess
+  | AllActions.FetchPersonFail;

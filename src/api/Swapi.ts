@@ -1,6 +1,6 @@
 import appConfig from "config/app.config";
 import axios, { AxiosRequestConfig } from "axios";
-import { People } from "./types/People";
+import { People, Person } from "./types/People";
 
 export const swapi = (() => {
   const swapiInstance = axios.create({ baseURL: appConfig.apiUrl });
@@ -9,24 +9,16 @@ export const swapi = (() => {
     /**
      * @param param  id and (or) filter
      */
-    getPeople: async (
-      id?: number,
-      filter?: { [key: string]: string },
+    getPeople: async <T = number | undefined>(
+      id?: T,
+      query?: string,
       config?: AxiosRequestConfig
     ) => {
       const baseUrl = "/people";
       const paramUrl = typeof id !== "undefined" ? `/${id}` : "";
-      // TODO: filter query
-      const filterUrl =
-        typeof filter !== "undefined"
-          ? "?" +
-            Object.keys(filter)
-              .map((key) => key + "=" + filter[key])
-              .join("&")
-          : "";
 
-      const url = baseUrl + paramUrl + filterUrl;
-      return swapiInstance.get<People>(url, config);
+      const url = baseUrl + paramUrl + query;
+      return swapiInstance.get<T extends number ? Person : People>(url, config);
     },
   };
 })();

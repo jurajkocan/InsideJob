@@ -8,8 +8,8 @@ module.exports = {
   mode: "development",
   entry: {
     app: "./src/frontend/Index.tsx",
-    userList: "./src/frontend/pages/UserList.tsx",
-    userDetail: "./src/frontend/pages/UserDetail.tsx",
+    userList: "./src/frontend/pages/PersonList.tsx",
+    userDetail: "./src/frontend/pages/PersonDetail.tsx",
     notFound404: "./src/frontend/pages/404.tsx",
   },
   devtool: "source-map",

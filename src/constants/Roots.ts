@@ -1,8 +1,8 @@
 export const Roots = {
   Home: "/",
-  UserList: "/people",
-  UserDetail: "/user",
-  UserDetailWithParam: "/user/:id",
+  PersonList: "/people",
+  PersonDetail: "/person",
+  PersonDetailWithParam: "/person/:id",
   FilmList: "/films",
   FilmDetail: "film/:id",
   FilmDetailWithParma: "film/:id",

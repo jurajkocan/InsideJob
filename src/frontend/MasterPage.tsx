@@ -10,9 +10,31 @@ import {
   SendOutlined,
 } from "@ant-design/icons";
 
-import { style } from "typestyle";
+import { style, media } from "typestyle";
 import { Roots } from "src/constants/Roots";
+import { sm } from "src/style/common";
 const masterPageStyle = {
+  slider: style({
+    height: "100vh",
+    position: "fixed",
+  }),
+
+  header: style({
+    padding: 0,
+    position: "fixed",
+    width: "100%",
+    zIndex: 1,
+  }),
+
+  headerTitle: style(
+    media(
+      { maxWidth: sm },
+      {
+        display: "none",
+      }
+    )
+  ),
+
   trigger: style({
     fontSize: 18,
     lineHeight: "64px",
@@ -29,7 +51,14 @@ const masterPageStyle = {
   logo: style({
     height: 32,
     margin: "16px",
+    maxWidth: "calc(80px - 32px)",
   }),
+
+  contentLayout: (collapsed: boolean) =>
+    style({
+      marginLeft: collapsed ? 80 : 200,
+      minHeight: "calc(100vh - 128px)",
+    }),
 };
 
 const { Header, Sider, Content } = Layout;
@@ -41,7 +70,7 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
   );
   let selectedMenuKey: string[] = [];
   switch (props.location.pathname) {
-    case Roots.UserList:
+    case Roots.PersonList:
       selectedMenuKey = ["1"];
       break;
     case Roots.FilmList:
@@ -54,8 +83,13 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
       break;
   }
   return (
-    <Layout style={{ height: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Layout>
+      <Sider
+        className={masterPageStyle.slider}
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+      >
         <Link to={Roots.Home}>
           <img className={masterPageStyle.logo} src={logo} />
         </Link>
@@ -66,7 +100,7 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
           defaultSelectedKeys={selectedMenuKey}
         >
           <Menu.Item
-            onClick={() => props.history.push(Roots.UserList)}
+            onClick={() => props.history.push(Roots.PersonList)}
             key="1"
             icon={<UserOutlined translate="" />}
           >
@@ -88,10 +122,11 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout>
-        <Header
-          style={{ padding: 0, position: "fixed", width: "100%", zIndex: 1 }}
-        >
+      <Layout
+        style={{ transition: "margin 0.2s ease" }}
+        className={masterPageStyle.contentLayout(collapsed)}
+      >
+        <Header className={masterPageStyle.header}>
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
@@ -100,7 +135,10 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
               onClick: () => setCollapsed(!collapsed),
             }
           )}
-          <span> Did you ever hear the tragedy of Darth Plagueis The Wise</span>
+          <span className={masterPageStyle.headerTitle}>
+            {" "}
+            Did you ever hear the tragedy of Darth Plagueis The Wise
+          </span>
         </Header>
         <Content
           style={{

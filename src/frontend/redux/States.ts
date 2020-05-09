@@ -1,21 +1,23 @@
-import { People, User } from "src/api/types/People";
+import { People, Person } from "src/api/types/People";
 
-export type UserState = {
+export type PersonState = {
   list: People | null;
-  detail: User | null;
+  detail: Person | null;
   peopleListFetching: boolean;
+  personFetching: boolean;
   err: any;
 };
 
 export type State = {
-  user: UserState;
+  person: PersonState;
 };
 
 export const defaultState: State = {
-  user: {
+  person: {
     detail: null,
     list: null,
     peopleListFetching: false,
+    personFetching: false,
     err: null,
   },
 };
