@@ -109,11 +109,4 @@ module.exports = {
     new CompressionPlugin(),
     // new Visualizer(),
   ],
-  devServer: {
-    writeToDisk: true,
-    historyApiFallback: true,
-    contentBase: path.join(__dirname, "dist"),
-    compress: true,
-    port: 3000,
-  },
 };

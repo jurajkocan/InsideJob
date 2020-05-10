@@ -34,10 +34,8 @@ type Props = DispatchProps & StateProps & RouteComponentProps;
 const PersonDetail = (props: Props) => {
   const [constructorHasRun, setConstructorHasRun] = useState(false);
   const constructor = () => {
-    console.log(0);
     if (constructorHasRun) return;
     const id = Number(getLastParameterFromUrl(props.location.pathname));
-    console.log(1);
     props.fetchUser(id);
     setConstructorHasRun(true);
   };
@@ -75,7 +73,7 @@ const PersonDetail = (props: Props) => {
           column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
         >
           {(Object.keys(person) as Array<keyof typeof person>).map((key) => {
-            return Array.isArray(person[key]) ? null : ( // TODO: links for arrays
+            return Array.isArray(person[key]) ? null : (
               <Descriptions.Item label={key}>{person[key]}</Descriptions.Item>
             );
           })}

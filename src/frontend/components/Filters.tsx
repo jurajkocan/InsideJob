@@ -15,7 +15,6 @@ const Filters = (props: Props & RouteComponentProps) => {
   const searchDefaultValue = (filter: Filters[number]): any => {
     const parsed = parseQuery(props.location.search);
     const value = parsed[filter.name];
-    console.log(filter.name, " value: ", value);
     if (value) {
       return value;
     }
@@ -70,32 +69,39 @@ const Filters = (props: Props & RouteComponentProps) => {
           </div>
         );
       })}
-      {checkBoxFilters.map((checkBoxFilter, index) => (
-        <div key={`checkBoxGroup-${checkBoxFilter.name}-${index}`}>
-          <h5>{checkBoxFilter.translate}</h5>
-          <Checkbox.Group
-            onChange={(checkedValue) => {
-              props.history.push({
-                search: updateQuery(
-                  removeFromQuery(props.location.search, "page"),
-                  checkBoxFilter.name,
-                  checkedValue
-                ),
-              });
-            }}
-            defaultValue={Array.from(searchDefaultValue(checkBoxFilter))}
-          >
-            <Row>
-              {checkBoxFilter.value.map((value, index) => (
-                <Col key={`checkBoxValue-${index}`} span={12}>
-                  <Checkbox value={value}>{value}</Checkbox>
-                </Col>
-              ))}
-            </Row>
-          </Checkbox.Group>
-          <Divider />
-        </div>
-      ))}
+      {checkBoxFilters.map((checkBoxFilter, index) => {
+        const queryCheckboxValue = searchDefaultValue(checkBoxFilter);
+        const defaultCheckboxValue: string[] =
+          typeof queryCheckboxValue === "string"
+            ? [queryCheckboxValue]
+            : Array.from(queryCheckboxValue);
+        return (
+          <div key={`checkBoxGroup-${checkBoxFilter.name}-${index}`}>
+            <h5>{checkBoxFilter.translate}</h5>
+            <Checkbox.Group
+              onChange={(checkedValue) => {
+                props.history.push({
+                  search: updateQuery(
+                    removeFromQuery(props.location.search, "page"),
+                    checkBoxFilter.name,
+                    checkedValue
+                  ),
+                });
+              }}
+              defaultValue={defaultCheckboxValue}
+            >
+              <Row>
+                {checkBoxFilter.value.map((value, index) => (
+                  <Col key={`checkBoxValue-${index}`} span={12}>
+                    <Checkbox value={value}>{value}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+            <Divider />
+          </div>
+        );
+      })}
     </Drawer>
   );
 };
