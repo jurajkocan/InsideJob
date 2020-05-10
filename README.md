@@ -15,6 +15,7 @@ $ npm run build:dev
 ### Production
 
 [application](https://inside-job-e23iw5ih4.now.sh/) deployed with [zeit](http://zeit.co/).
+
 [application](https://app.netlify.com/sites/ecstatic-blackwell-402038) deployed with [netlify](https://www.netlify.com/)
 
 > Used open api [SWAPI](https://swapi.dev/)
