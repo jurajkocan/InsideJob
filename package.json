@@ -15,7 +15,7 @@
     "react-scripts": "^3.4.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "typestyle": "^2.0.4"
+    "typestyle": "~2.0.1"
   },
   "scripts": {
     "build:dev": "webpack-dev-server --config config/webpack.dev.js --progress --color --watch",

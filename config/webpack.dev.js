@@ -10,9 +10,6 @@ module.exports = {
   mode,
   entry: {
     app: "./src/frontend/Index.tsx",
-    userList: "./src/frontend/pages/PersonList.tsx",
-    userDetail: "./src/frontend/pages/PersonDetail.tsx",
-    notFound404: "./src/frontend/pages/404.tsx",
   },
   devtool: "source-map",
   target: "web",
