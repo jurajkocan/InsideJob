@@ -7,10 +7,12 @@ import AppReducer from "./reducers/AppReducer";
 
 declare const window: any;
 
-const appliedReduxMiddleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-  trace: true,
-  traceLimit: 25,
-})(applyMiddleware(createLogger()));
+const appliedReduxMiddleware =
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+    trace: true,
+    traceLimit: 25,
+  })(applyMiddleware(createLogger()));
 
 export const store = createStore<State, Actions, {}, {}>(
   combineReducers({
