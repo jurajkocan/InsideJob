@@ -14,8 +14,8 @@ export const swapi = (() => {
       query?: string,
       config?: AxiosRequestConfig
     ) => {
-      const baseUrl = "/people";
-      const paramUrl = typeof id !== "undefined" ? `/${id}` : "";
+      const baseUrl = "/people/";
+      const paramUrl = typeof id !== "undefined" ? `/${id}/` : "";
       const queryUrl = query || "";
       const url = baseUrl + paramUrl + queryUrl;
       return swapiInstance.get<T extends number ? Person : People>(url, config);
