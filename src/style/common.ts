@@ -10,13 +10,13 @@ export const blockSpace = 24;
 export const responsiveGroupBtn = (last: boolean) =>
   style(
     {
-      marginRight: last ? 0 : blockSpace,
+      marginRight: last ? "0px !important" : `${blockSpace}px !important`,
     },
     media(
       { maxWidth: md },
       {
         width: "100%",
-        marginBottom: last ? 0 : blockSpace,
+        marginBottom: last ? "0px !important" : `${blockSpace}px !important`,
       }
     )
   );

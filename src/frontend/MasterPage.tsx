@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, RouteComponentProps, Link, Route } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import logo from "assets/images/logo.png";
@@ -67,6 +67,13 @@ type Props = StateProps & RouteComponentProps;
 const { Header, Sider, Content } = Layout;
 const MasterPageComponent: React.FC<Props> = (props) => {
   const [collapsed, setCollapsed] = useState(props.isMobile);
+
+  if (props.isMobile) {
+    useEffect(() => {
+      setCollapsed(true);
+    }, [props.location.pathname]);
+  }
+
   let selectedMenuKey: string[] = [];
   switch (props.location.pathname) {
     case Roots.Home:
@@ -83,11 +90,11 @@ const MasterPageComponent: React.FC<Props> = (props) => {
     <Layout>
       <Sider
         className={masterPageStyle.slider}
-        trigger={null}
         collapsible
+        trigger={null}
         collapsed={collapsed}
       >
-        <Link to={Roots.Home}>
+        <Link to={Roots.Home} onClick={() => {}}>
           <img className={masterPageStyle.logo} src={logo} />
         </Link>
         <Menu

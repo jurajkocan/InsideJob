@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { List, Avatar, Divider, Button } from "antd";
+import { List, Avatar, Divider, Button, Select } from "antd";
 import { connect } from "react-redux";
 import { State } from "../redux/States";
 import { Dispatch } from "redux";
@@ -36,38 +36,68 @@ type Props = StateProps & DispatchProps & RouteComponentProps;
 let currentPage = 1;
 const PersonList = (props: Props) => {
   const [filterVisible, setFilterVisibility] = useState(false);
+  const [removeFilterBtnVisible, setRemoveBtnVisibility] = useState(
+    !!props.location.search
+  );
 
   useEffect(() => {
     props.fetchPeople(props.location.search);
     const parsed = parseQuery(props.location.search);
     currentPage = Number(parsed["page"]);
+    if (!!props.location.search !== removeFilterBtnVisible) {
+      setRemoveBtnVisibility(!removeFilterBtnVisible);
+    }
   }, [props.location.search]);
   const data = props.userList ? props.userList.results : [];
   return (
     <>
-      {!props.listFetching && !props.userList ? null : (
-        <Button
-          className={responsiveGroupBtn(false)}
-          icon={<FilterOutlined translate="" />}
-          size="large"
-          onClick={() => setFilterVisibility(true)}
-        >
-          Filters
-        </Button>
-      )}
-      <Button
-        className={responsiveGroupBtn(true)}
-        danger
-        type="primary"
-        size="large"
-        onClick={() => {
-          props.history.push(props.location.pathname);
-        }}
-      >
-        Remove all filters
-      </Button>
-      <Divider />
       <Search />
+      <Divider />
+      {!props.listFetching && !props.userList ? null : (
+        <>
+          <Select
+            placeholder="Sort by"
+            className={responsiveGroupBtn(false)}
+            size="large"
+            onChange={(value) => {
+              props.history.push({
+                search: updateQuery(props.location.search, "sort", value),
+              });
+            }}
+          >
+            {props.userList?.filters
+              .find((filter) => filter.name === "sort")
+              ?.value.map((value, index) => (
+                <Select.Option key={`sort-option-${index}`} value={value}>
+                  {value}
+                </Select.Option>
+              ))}
+          </Select>
+          <Button
+            className={responsiveGroupBtn(
+              removeFilterBtnVisible ? false : true
+            )}
+            icon={<FilterOutlined translate="" />}
+            size="large"
+            onClick={() => setFilterVisibility(true)}
+          >
+            Filters
+          </Button>
+        </>
+      )}
+      {removeFilterBtnVisible ? (
+        <Button
+          className={responsiveGroupBtn(true)}
+          danger
+          type="primary"
+          size="large"
+          onClick={() => {
+            window.location.href = props.location.pathname;
+          }}
+        >
+          Remove all filters
+        </Button>
+      ) : null}
       <Divider />
       <List
         grid={{

@@ -2,6 +2,12 @@ import { Filters } from "src/api/types/Filters";
 
 export const PeopleListFilter: Filters = [
   {
+    name: "sort",
+    translate: "Sort by",
+    type: "radio",
+    value: ["name:asc", "name:desc"],
+  },
+  {
     name: "gender",
     translate: "Gender",
     type: "radio",

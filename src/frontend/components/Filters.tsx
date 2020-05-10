@@ -3,7 +3,7 @@ import { Drawer, Radio, Checkbox, Row, Col, Divider } from "antd";
 import { Filters } from "src/api/types/Filters";
 import { withRouter, RouteComponentProps } from "react-router";
 import { parse as parseQuery } from "query-string";
-import { updateQuery } from "src/utils/QueryUtils";
+import { updateQuery, removeFromQuery } from "src/utils/QueryUtils";
 
 type Props = {
   isVisible: boolean;
@@ -15,6 +15,7 @@ const Filters = (props: Props & RouteComponentProps) => {
   const searchDefaultValue = (filter: Filters[number]): any => {
     const parsed = parseQuery(props.location.search);
     const value = parsed[filter.name];
+    console.log(filter.name, " value: ", value);
     if (value) {
       return value;
     }
@@ -44,13 +45,13 @@ const Filters = (props: Props & RouteComponentProps) => {
     >
       {radioFilters.map((radioFilter, index) => {
         return (
-          <div key={`radioGroup-${index}`}>
+          <div key={`radioGroup-${radioFilter.name}-${index}`}>
             <h5>{radioFilter.translate}</h5>
             <Radio.Group
               onChange={(e) => {
                 props.history.push({
                   search: updateQuery(
-                    props.location.search,
+                    removeFromQuery(props.location.search, "page"),
                     radioFilter.name,
                     e.target.value
                   ),
@@ -65,18 +66,18 @@ const Filters = (props: Props & RouteComponentProps) => {
                 </Radio>
               ))}
             </Radio.Group>
+            <Divider />
           </div>
         );
       })}
-      <Divider />
       {checkBoxFilters.map((checkBoxFilter, index) => (
-        <div key={`checkBoxGroup-${index}`}>
+        <div key={`checkBoxGroup-${checkBoxFilter.name}-${index}`}>
           <h5>{checkBoxFilter.translate}</h5>
           <Checkbox.Group
             onChange={(checkedValue) => {
               props.history.push({
                 search: updateQuery(
-                  props.location.search,
+                  removeFromQuery(props.location.search, "page"),
                   checkBoxFilter.name,
                   checkedValue
                 ),
@@ -92,6 +93,7 @@ const Filters = (props: Props & RouteComponentProps) => {
               ))}
             </Row>
           </Checkbox.Group>
+          <Divider />
         </div>
       ))}
     </Drawer>
