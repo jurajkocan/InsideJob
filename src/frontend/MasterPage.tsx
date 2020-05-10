@@ -6,13 +6,14 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
-  VideoCameraOutlined,
   SendOutlined,
 } from "@ant-design/icons";
-
 import { style, media } from "typestyle";
 import { Roots } from "src/constants/Roots";
 import { sm } from "src/style/common";
+import { connect } from "react-redux";
+import { State } from "./redux/States";
+
 const masterPageStyle = {
   slider: style({
     height: "100vh",
@@ -61,24 +62,20 @@ const masterPageStyle = {
     }),
 };
 
+type StateProps = { isMobile: boolean };
+type Props = StateProps & RouteComponentProps;
 const { Header, Sider, Content } = Layout;
-const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
-  const [collapsed, setCollapsed] = useState(
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    )
-  );
+const MasterPageComponent: React.FC<Props> = (props) => {
+  const [collapsed, setCollapsed] = useState(props.isMobile);
   let selectedMenuKey: string[] = [];
   switch (props.location.pathname) {
-    case Roots.PersonList:
+    case Roots.Home:
       selectedMenuKey = ["1"];
       break;
-    case Roots.FilmList:
+    case Roots.PersonList:
       selectedMenuKey = ["2"];
       break;
-    case Roots.StarshipList:
-      selectedMenuKey = ["3"];
-      break;
+    case Roots.Home:
     default:
       break;
   }
@@ -100,25 +97,18 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
           defaultSelectedKeys={selectedMenuKey}
         >
           <Menu.Item
-            onClick={() => props.history.push(Roots.PersonList)}
+            onClick={() => props.history.push(Roots.Home)}
             key="1"
+            icon={<SendOutlined translate="" />}
+          >
+            Home
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => props.history.push(Roots.PersonList)}
+            key="2"
             icon={<UserOutlined translate="" />}
           >
             people
-          </Menu.Item>
-          <Menu.Item
-            onClick={() => props.history.push(Roots.FilmList)}
-            key="2"
-            icon={<VideoCameraOutlined translate="" />}
-          >
-            Films
-          </Menu.Item>
-          <Menu.Item
-            onClick={() => props.history.push(Roots.StarshipList)}
-            key="3"
-            icon={<SendOutlined translate="" />}
-          >
-            Starships
           </Menu.Item>
         </Menu>
       </Sider>
@@ -154,4 +144,8 @@ const MasterPageComponent: React.FC<RouteComponentProps<any>> = (props) => {
   );
 };
 
-export const MasterPage = withRouter(MasterPageComponent);
+const mapStateToProps = (state: State): StateProps => ({
+  isMobile: state.app.isMobile,
+});
+
+export default withRouter(connect(mapStateToProps)(MasterPageComponent));

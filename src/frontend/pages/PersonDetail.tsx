@@ -4,7 +4,7 @@ import { dispatcher } from "../redux/Dispatcher";
 import { Dispatch } from "redux";
 import { Actions, ActionTypes } from "../redux/ActionTypes";
 import { withRouter, RouteComponentProps } from "react-router";
-import { getLastParameterFromUrl } from "src/utils/StringUtils";
+import { getLastParameterFromUrl } from "src/utils/QueryUtils";
 import { State } from "../redux/States";
 import { Descriptions, Skeleton, Button } from "antd";
 import { style } from "typestyle";

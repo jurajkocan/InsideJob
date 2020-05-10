@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { getThemeVariables } = require("antd/dist/theme");
@@ -8,9 +9,9 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
 
 // const Visualizer = require("webpack-visualizer-plugin");
-
+const mdoe = "production";
 module.exports = {
-  mode: "production",
+  mode,
   devtool: false,
   optimization: {
     minimize: true,
@@ -94,6 +95,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify(mode),
+    }),
     new MomentLocalesPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/frontend/index.html",

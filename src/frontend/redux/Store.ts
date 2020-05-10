@@ -3,6 +3,7 @@ import { createLogger } from "redux-logger";
 import PeopleReducer from "./reducers/PeopleReducer";
 import { State, defaultState } from "./States";
 import { Actions } from "./ActionTypes";
+import AppReducer from "./reducers/AppReducer";
 
 declare const window: any;
 
@@ -14,7 +15,8 @@ const appliedReduxMiddleware = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
 export const store = createStore<State, Actions, {}, {}>(
   combineReducers({
     person: PeopleReducer,
+    app: AppReducer,
   }),
   defaultState,
-  appliedReduxMiddleware
+  process.env.NODE_ENV !== "production" ? appliedReduxMiddleware : undefined
 );

@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "antd";
 import { parse as parseQuery } from "query-string";
 import { withRouter, RouteComponentProps } from "react-router";
-import { updateQuery } from "src/utils/QueryUtils";
+import { updateQuery, removeFromQuery } from "src/utils/QueryUtils";
 
 type Props = RouteComponentProps;
 
@@ -12,14 +12,13 @@ const Search = (props: Props) => {
   return (
     <Input.Search
       size="large"
-      placeholder="input search text"
+      placeholder="Search name"
       defaultValue={value ?? undefined}
       onSearch={(value) =>
         props.history.push({
-          search: updateQuery(
-            props.location.search,
-            "search",
-            value || undefined
+          search: removeFromQuery(
+            updateQuery(props.location.search, "search", value || undefined),
+            "page"
           ),
         })
       }

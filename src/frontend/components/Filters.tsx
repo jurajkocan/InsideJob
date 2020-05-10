@@ -65,19 +65,6 @@ const Filters = (props: Props & RouteComponentProps) => {
                 </Radio>
               ))}
             </Radio.Group>
-            <a
-              onClick={() => {
-                props.history.push({
-                  search: updateQuery(
-                    props.location.search,
-                    radioFilter.name,
-                    undefined
-                  ),
-                });
-              }}
-            >
-              remove filter
-            </a>
           </div>
         );
       })}

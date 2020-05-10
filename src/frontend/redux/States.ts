@@ -8,11 +8,21 @@ export type PersonState = {
   err: any;
 };
 
+export type AppState = {
+  isMobile: boolean;
+};
+
 export type State = {
   person: PersonState;
+  app: AppState;
 };
 
 export const defaultState: State = {
+  app: {
+    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    ),
+  },
   person: {
     detail: null,
     list: null,

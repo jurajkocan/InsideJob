@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import React, { Suspense, lazy } from "react";
-import { MasterPage } from "./MasterPage";
+import MasterPage from "./MasterPage";
 import { Roots } from "src/constants/Roots";
 
 export const RouterApp = () => (

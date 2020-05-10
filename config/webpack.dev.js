@@ -1,11 +1,13 @@
 const path = require("path");
+const webpack = require("webpack");
 const { getThemeVariables } = require("antd/dist/theme");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
 
+const mode = "development";
 module.exports = {
-  mode: "development",
+  mode,
   entry: {
     app: "./src/frontend/Index.tsx",
     userList: "./src/frontend/pages/PersonList.tsx",
@@ -87,6 +89,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify(mode),
+    }),
     new HtmlWebpackPlugin({
       template: "./src/frontend/index.html",
     }),

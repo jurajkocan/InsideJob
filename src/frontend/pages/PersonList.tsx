@@ -8,12 +8,13 @@ import { dispatcher } from "../redux/Dispatcher";
 import avatar from "assets/images/rebel-imperium-logo.png";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import { Roots } from "src/constants/Roots";
-import { getLastParameterFromUrl } from "src/utils/StringUtils";
 import { style } from "typestyle";
 import Filters from "../components/Filters";
 import Search from "../components/Search";
-import { updateQuery } from "src/utils/QueryUtils";
+import { updateQuery, getLastParameterFromUrl } from "src/utils/QueryUtils";
 import { FilterOutlined } from "@ant-design/icons";
+import { responsiveGroupBtn } from "src/style/common";
+import { parse as parseQuery } from "query-string";
 
 const userListStyle = {
   pagination: style({
@@ -24,6 +25,7 @@ const userListStyle = {
 type StateProps = {
   listFetching: boolean;
   userList: State["person"]["list"];
+  isMobile: boolean;
 };
 
 type DispatchProps = {
@@ -31,26 +33,21 @@ type DispatchProps = {
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
+let currentPage = 1;
 const PersonList = (props: Props) => {
-  const [constructorHasRun, setConstructorHasRun] = useState(false);
-
   const [filterVisible, setFilterVisibility] = useState(false);
-  const constructor = () => {
-    if (constructorHasRun) return;
-    props.fetchPeople(props.location.search);
-    setConstructorHasRun(true);
-  };
-
-  constructor();
 
   useEffect(() => {
     props.fetchPeople(props.location.search);
+    const parsed = parseQuery(props.location.search);
+    currentPage = Number(parsed["page"]);
   }, [props.location.search]);
   const data = props.userList ? props.userList.results : [];
   return (
     <>
       {!props.listFetching && !props.userList ? null : (
         <Button
+          className={responsiveGroupBtn(false)}
           icon={<FilterOutlined translate="" />}
           size="large"
           onClick={() => setFilterVisibility(true)}
@@ -59,13 +56,12 @@ const PersonList = (props: Props) => {
         </Button>
       )}
       <Button
+        className={responsiveGroupBtn(true)}
         danger
         type="primary"
         size="large"
         onClick={() => {
-          props.history.push({
-            search: "",
-          });
+          props.history.push(props.location.pathname);
         }}
       >
         Remove all filters
@@ -85,8 +81,10 @@ const PersonList = (props: Props) => {
         }}
         pagination={{
           className: userListStyle.pagination,
+          current: currentPage || 1,
+          size: props.isMobile ? "small" : "default",
           showSizeChanger: false,
-          defaultCurrent: 1,
+          defaultCurrent: currentPage || 1,
           total: props.userList?.count,
           onChange: (page) => {
             props.history.push({
@@ -134,6 +132,7 @@ const mapStateToProps = (state: State): StateProps => {
   return {
     userList: state.person.list,
     listFetching: state.person.peopleListFetching,
+    isMobile: state.app.isMobile,
   };
 };
 
