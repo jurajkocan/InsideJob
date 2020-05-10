@@ -9,7 +9,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
 
 // const Visualizer = require("webpack-visualizer-plugin");
-const mdoe = "production";
+const mode = "production";
 module.exports = {
   mode,
   devtool: false,
