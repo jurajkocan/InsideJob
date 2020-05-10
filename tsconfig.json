@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "target": "ES2015",
+    "target": "ES5",
     "lib": ["es2019", "es2018", "es2017", "es2015", "es2016", "dom", "es6"],
     "esModuleInterop": true,
     "noImplicitAny": true,
