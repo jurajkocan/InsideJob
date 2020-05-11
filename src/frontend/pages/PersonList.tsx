@@ -53,51 +53,53 @@ const PersonList = (props: Props) => {
     <>
       <Search />
       <Divider />
-      {!props.listFetching && !props.userList ? null : (
-        <>
-          <Select
-            placeholder="Sort by"
-            className={responsiveGroupBtn(false)}
+      <div>
+        {!props.listFetching && !props.userList ? null : (
+          <>
+            <Select
+              placeholder="Sort by"
+              className={responsiveGroupBtn(false)}
+              size="large"
+              onChange={(value) => {
+                props.history.push({
+                  search: updateQuery(props.location.search, "sort", value),
+                });
+              }}
+            >
+              {props.userList?.filters
+                .find((filter) => filter.name === "sort")
+                ?.value.map((value, index) => (
+                  <Select.Option key={`sort-option-${index}`} value={value}>
+                    {value}
+                  </Select.Option>
+                ))}
+            </Select>
+            <Button
+              className={responsiveGroupBtn(
+                removeFilterBtnVisible ? false : true
+              )}
+              icon={<FilterOutlined translate="" />}
+              size="large"
+              onClick={() => setFilterVisibility(true)}
+            >
+              Filters
+            </Button>
+          </>
+        )}
+        {removeFilterBtnVisible ? (
+          <Button
+            className={responsiveGroupBtn(true)}
+            danger
+            type="primary"
             size="large"
-            onChange={(value) => {
-              props.history.push({
-                search: updateQuery(props.location.search, "sort", value),
-              });
+            onClick={() => {
+              window.location.href = props.location.pathname;
             }}
           >
-            {props.userList?.filters
-              .find((filter) => filter.name === "sort")
-              ?.value.map((value, index) => (
-                <Select.Option key={`sort-option-${index}`} value={value}>
-                  {value}
-                </Select.Option>
-              ))}
-          </Select>
-          <Button
-            className={responsiveGroupBtn(
-              removeFilterBtnVisible ? false : true
-            )}
-            icon={<FilterOutlined translate="" />}
-            size="large"
-            onClick={() => setFilterVisibility(true)}
-          >
-            Filters
+            Remove all filters
           </Button>
-        </>
-      )}
-      {removeFilterBtnVisible ? (
-        <Button
-          className={responsiveGroupBtn(true)}
-          danger
-          type="primary"
-          size="large"
-          onClick={() => {
-            window.location.href = props.location.pathname;
-          }}
-        >
-          Remove all filters
-        </Button>
-      ) : null}
+        ) : null}
+      </div>
       <Divider />
       <List
         grid={{

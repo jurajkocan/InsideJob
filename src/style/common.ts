@@ -1,4 +1,4 @@
-import { media, style } from "typestyle";
+import { media, style, cssRaw } from "typestyle";
 
 export const sm = 576;
 export const md = 768;
@@ -20,3 +20,27 @@ export const responsiveGroupBtn = (last: boolean) =>
       }
     )
   );
+
+//#region I E 11 support
+export const cssForIe = `
+@media screen and (-ms-high-contrast: none) {
+    .ant-select-single .ant-select-selector {
+      display: inline-block;
+    }
+    .ant-input-lg {
+      padding: 3px 11px !important;
+    }
+    .ant-col-12 {
+      flex: 1 0 auto;
+      display: flex;
+    }
+}
+
+@-moz-document url-prefix() {
+ * {
+      flex: 1 0 auto !important;
+    }
+}
+`;
+
+//#endregion
