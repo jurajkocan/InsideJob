@@ -32,7 +32,8 @@ module.exports = {
     rules: [
       {
         test: /\.(t|j)sx?$/,
-        exclude: /node_modules/,
+        // modules in es6+, need to transpile for ie support
+        exclude: /node_modules(?!(\/|\\)(query-string|split-on-first|strict-uri-encode))/,
         use: [
           {
             loader: "ts-loader",
