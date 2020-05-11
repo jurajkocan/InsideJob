@@ -14,7 +14,7 @@ $ npm run build:dev
 
 ### Production
 
-[application](https://inside-job-e23iw5ih4.now.sh/) deployed with [zeit](http://zeit.co/).
+[application](https://inside-job.now.sh/) deployed with [zeit](http://zeit.co/).
 
 > Used open api [SWAPI](https://swapi.dev/)
 
