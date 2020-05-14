@@ -13,6 +13,9 @@ import { Roots } from "src/constants/Roots";
 import { sm } from "src/style/common";
 import { connect } from "react-redux";
 import { State } from "./redux/States";
+import { Languages, englishLanguage, wookieeLanguage } from "src/types/Common";
+import { Dispatch } from "redux";
+import { Actions, ActionTypes } from "./redux/ActionTypes";
 
 const masterPageStyle = {
   slider: style({
@@ -20,12 +23,14 @@ const masterPageStyle = {
     position: "fixed",
   }),
 
-  header: style({
-    padding: 0,
-    position: "fixed",
-    width: "100%",
-    zIndex: 1,
-  }),
+  header: (collapsed: boolean) =>
+    style({
+      transition: "all 0.2s",
+      padding: 0,
+      position: "fixed",
+      width: `calc(100% - ${collapsed ? "80px" : "200px"})`,
+      zIndex: 1,
+    }),
 
   headerTitle: style(
     media(
@@ -55,6 +60,12 @@ const masterPageStyle = {
     maxWidth: "calc(80px - 32px)",
   }),
 
+  language: style({
+    float: "right",
+    cursor: "pointer",
+    paddingRight: 24,
+  }),
+
   contentLayout: (collapsed: boolean) =>
     style({
       marginLeft: collapsed ? 80 : 200,
@@ -62,8 +73,15 @@ const masterPageStyle = {
     }),
 };
 
-type StateProps = { isMobile: boolean };
-type Props = StateProps & RouteComponentProps;
+type StateProps = {
+  isMobile: boolean;
+  language: Languages;
+};
+type DispatchProps = {
+  changeLanguage: (language: Languages) => void;
+};
+
+type Props = StateProps & DispatchProps & RouteComponentProps;
 const { Header, Sider, Content } = Layout;
 const MasterPageComponent: React.FC<Props> = (props) => {
   const [collapsed, setCollapsed] = useState(props.isMobile);
@@ -123,7 +141,7 @@ const MasterPageComponent: React.FC<Props> = (props) => {
         style={{ transition: "margin 0.2s ease" }}
         className={masterPageStyle.contentLayout(collapsed)}
       >
-        <Header className={masterPageStyle.header}>
+        <Header className={masterPageStyle.header(collapsed)}>
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
@@ -136,6 +154,18 @@ const MasterPageComponent: React.FC<Props> = (props) => {
             {" "}
             Did you ever hear the tragedy of Darth Plagueis The Wise
           </span>
+          <a
+            onClick={() => {
+              props.changeLanguage(
+                props.language === englishLanguage
+                  ? wookieeLanguage
+                  : englishLanguage
+              );
+            }}
+            className={masterPageStyle.language}
+          >
+            {props.language === englishLanguage ? "ughurrag" : "english"}
+          </a>
         </Header>
         <Content
           style={{
@@ -153,6 +183,15 @@ const MasterPageComponent: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: State): StateProps => ({
   isMobile: state.app.isMobile,
+  language: state.app.language,
 });
 
-export default withRouter(connect(mapStateToProps)(MasterPageComponent));
+const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => ({
+  changeLanguage: (language: Languages) => {
+    dispatch({ type: ActionTypes.CHANGE_LANGUAGE, payload: language });
+  },
+});
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(MasterPageComponent)
+);

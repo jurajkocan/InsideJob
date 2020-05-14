@@ -1,5 +1,6 @@
 import { People, Person } from "src/api/types/People";
 import { Action } from "redux";
+import { Languages } from "src/types/Common";
 
 export enum ActionTypes {
   FETCH_PEOPLE = "FETCH_PEOPLE",
@@ -25,6 +26,8 @@ export enum ActionTypes {
   FETCH_STARSHIP = "FETCH_STARSHIP",
   FETCH_STARSHIP_SUCCESS = "FETCH_STARSHIP_SUCCESS",
   FETCH_STARSHIP_FAIL = "FETCH_STARSHIP_FAIL",
+
+  CHANGE_LANGUAGE = "CHANGE_LANGUAGE",
 }
 
 export namespace AllActions {
@@ -64,6 +67,11 @@ export namespace AllActions {
       err: any;
     };
   };
+
+  export type ChangeLanguage = {
+    type: ActionTypes.CHANGE_LANGUAGE;
+    payload: Languages;
+  };
 }
 
 export type Actions =
@@ -72,4 +80,5 @@ export type Actions =
   | AllActions.FetchPeopleFail
   | AllActions.FetchPerson
   | AllActions.FetchPersonSuccess
-  | AllActions.FetchPersonFail;
+  | AllActions.FetchPersonFail
+  | AllActions.ChangeLanguage;
