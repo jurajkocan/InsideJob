@@ -4,6 +4,9 @@ const { getThemeVariables } = require("antd/dist/theme");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
+const AntDesignThemePlugin = require("antd-theme-webpack-plugin");
+const lessToJs = require("less-vars-to-js");
+const fs = require("fs");
 
 const mode = "development";
 module.exports = {
@@ -94,6 +97,25 @@ module.exports = {
       template: "./src/frontend/index.html",
     }),
     new CleanWebpackPlugin(),
+    new AntDesignThemePlugin({
+      varFile: path.join(__dirname, "../src/style/variables.less"),
+      mainLessFile: path.join(__dirname, "../src/style/index.less"),
+      antDir: path.join(__dirname, "../node_modules/antd"),
+      stylesDir: path.join(__dirname, "../src/style"),
+      themeVariables: Object.keys(
+        lessToJs(
+          fs.readFileSync(
+            path.join(
+              __dirname,
+              "../node_modules/antd/lib/style/themes/default.less"
+            ),
+            "utf8"
+          )
+        )
+      ),
+      // indexFileName: 'index.html',
+      generateOnce: true,
+    }),
   ],
   devServer: {
     writeToDisk: true,
