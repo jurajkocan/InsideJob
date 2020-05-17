@@ -1,3 +1,16 @@
 {
-  "name": "name"
+  "count": "count",
+  "next": "next",
+  "previous": "previous",
+  "results": "results",
+
+  "name": "name",
+  "height": "height",
+  "mass": "mass",
+  "hair_color": "hair_color",
+  "skin_color": "skin_color",
+  "eye_color": "eye_color",
+  "birth_year": "birth_year",
+  "gender": "gender",
+  "url": "url"
 }

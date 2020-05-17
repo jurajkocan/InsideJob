@@ -15,6 +15,7 @@ export const dispatcher = (() => {
           undefined,
           action.payload.filter
         );
+        console.log("people: ", response.data);
         dispatch({
           type: ActionTypes.FETCH_PEOPLE_SUCCESS,
           payload: {

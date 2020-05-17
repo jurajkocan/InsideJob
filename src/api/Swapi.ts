@@ -3,6 +3,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import { People, Person } from "./types/People";
 import { store } from "src/frontend/redux/Store";
 import { wookieeLanguage } from "src/types/Common";
+import Box from "src/utils/Box";
+import { remapJson } from "src/utils/JsonMapper";
 
 export const swapi = (() => {
   const swapiInstance = axios.create({ baseURL: appConfig.apiUrl });
@@ -18,6 +20,21 @@ export const swapi = (() => {
       return config;
     } catch (err) {
       return config;
+    }
+  });
+
+  swapiInstance.interceptors.response.use((response) => {
+    try {
+      if (response.config.params?.format === wookieeLanguage) {
+        response.data = Box(response.data as string)
+          .map((data) => data.replace(/whhuanan/g, "null"))
+          .map((data) => JSON.parse(data))
+          .fold((data) => remapJson(data));
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      return response;
     }
   });
   return {

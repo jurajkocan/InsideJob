@@ -15,6 +15,7 @@ import { updateQuery, getLastParameterFromUrl } from "src/utils/QueryUtils";
 import { FilterOutlined } from "@ant-design/icons";
 import { responsiveGroupBtn } from "src/style/common";
 import { parse as parseQuery } from "query-string";
+// import { FormattedMessage } from "react-intl";
 
 const userListStyle = {
   pagination: style({
