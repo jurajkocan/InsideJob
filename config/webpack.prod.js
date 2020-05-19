@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
-
+const AntDesignThemePlugin = require("antd-theme-webpack-plugin");
 // const Visualizer = require("webpack-visualizer-plugin");
 const mode = "production";
 module.exports = {
