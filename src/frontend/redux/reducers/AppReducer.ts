@@ -8,6 +8,11 @@ export default (state = defaultState.app, action: Actions): AppState => {
         ...state,
         language: action.payload,
       };
+    case ActionTypes.CHANGE_THEME:
+      return {
+        ...state,
+        theme: action.payload,
+      };
     default:
       return state;
   }

@@ -1,6 +1,8 @@
 import { People, Person } from "src/api/types/People";
 import { Languages } from "src/types/Common";
 
+export type AppTheme = "light" | "dark";
+
 export type PersonState = {
   list: People | null;
   detail: Person | null;
@@ -12,6 +14,7 @@ export type PersonState = {
 export type AppState = {
   isMobile: boolean;
   language: Languages;
+  theme: AppTheme;
 };
 
 export type State = {
@@ -25,6 +28,7 @@ export const defaultState: State = {
       navigator.userAgent
     ),
     language: "en-US",
+    theme: "light",
   },
   person: {
     detail: null,

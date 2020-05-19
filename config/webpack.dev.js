@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const { getThemeVariables } = require("antd/dist/theme");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const tsImportPluginFactory = require("ts-import-plugin");
@@ -68,10 +67,6 @@ module.exports = {
             options: {
               lessOptions: {
                 modifyVars: {
-                  ...getThemeVariables({
-                    dark: true,
-                    compact: true,
-                  }),
                   "font-size-base": "16px",
                 },
                 javascriptEnabled: true,
@@ -113,7 +108,6 @@ module.exports = {
           )
         )
       ),
-      // indexFileName: 'index.html',
       generateOnce: true,
     }),
   ],

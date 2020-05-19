@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { getThemeVariables } = require("antd/dist/theme");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
@@ -71,10 +70,6 @@ module.exports = {
             options: {
               lessOptions: {
                 modifyVars: {
-                  ...getThemeVariables({
-                    dark: true,
-                    compact: true,
-                  }),
                   "font-size-base": "16px",
                 },
                 javascriptEnabled: true,
@@ -105,6 +100,24 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new CompressionPlugin(),
+    new AntDesignThemePlugin({
+      varFile: path.join(__dirname, "../src/style/variables.less"),
+      mainLessFile: path.join(__dirname, "../src/style/index.less"),
+      antDir: path.join(__dirname, "../node_modules/antd"),
+      stylesDir: path.join(__dirname, "../src/style"),
+      themeVariables: Object.keys(
+        lessToJs(
+          fs.readFileSync(
+            path.join(
+              __dirname,
+              "../node_modules/antd/lib/style/themes/default.less"
+            ),
+            "utf8"
+          )
+        )
+      ),
+      generateOnce: true,
+    }),
     // new Visualizer(),
   ],
 };

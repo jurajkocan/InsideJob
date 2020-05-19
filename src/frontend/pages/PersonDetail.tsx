@@ -15,7 +15,7 @@ const personDetailStyle = {
   description: style({
     $nest: {
       th: {
-        backgroundColor: "#1f1f1f !important",
+        // backgroundColor: "#1f1f1f !important",
       },
     },
   }),

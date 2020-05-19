@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, RouteComponentProps, Link, Route } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Switch } from "antd";
 import logo from "assets/images/logo.png";
 import {
   MenuUnfoldOutlined,
@@ -12,10 +12,12 @@ import { style, media } from "typestyle";
 import { Roots } from "src/constants/Roots";
 import { sm } from "src/style/common";
 import { connect } from "react-redux";
-import { State } from "./redux/States";
+import { State, AppTheme } from "./redux/States";
 import { Languages, englishLanguage, wookieeLanguage } from "src/types/Common";
 import { Dispatch } from "redux";
 import { Actions, ActionTypes } from "./redux/ActionTypes";
+import MenuItem from "antd/lib/menu/MenuItem";
+import ThemeChanger from "./components/ThemeChanger";
 
 const masterPageStyle = {
   slider: style({
@@ -66,9 +68,21 @@ const masterPageStyle = {
     paddingRight: 24,
   }),
 
+  themeChanger: style({
+    float: "right",
+    marginRight: 12,
+  }),
+
   contentLayout: (collapsed: boolean) =>
     style({
       marginLeft: collapsed ? 80 : 200,
+    }),
+
+  content: (theme: AppTheme) =>
+    style({
+      backgroundColor: theme === "light" ? "#fff" : "inherit",
+      margin: "82px 16px 24px 16px",
+      padding: 24,
       minHeight: "calc(100vh - 128px)",
     }),
 };
@@ -76,9 +90,11 @@ const masterPageStyle = {
 type StateProps = {
   isMobile: boolean;
   language: Languages;
+  theme: AppTheme;
 };
 type DispatchProps = {
   changeLanguage: (language: Languages) => void;
+  changeTheme: (theme: AppTheme) => void;
 };
 
 type Props = StateProps & DispatchProps & RouteComponentProps;
@@ -107,6 +123,7 @@ const MasterPageComponent: React.FC<Props> = (props) => {
   return (
     <Layout>
       <Sider
+        theme="light"
         className={masterPageStyle.slider}
         collapsible
         trigger={null}
@@ -116,7 +133,8 @@ const MasterPageComponent: React.FC<Props> = (props) => {
           <img className={masterPageStyle.logo} src={logo} />
         </Link>
         <Menu
-          theme="dark"
+          // theme={props.theme === "light" ? "dark" : "light"}
+          theme="light"
           mode="inline"
           selectedKeys={selectedMenuKey}
           defaultSelectedKeys={selectedMenuKey}
@@ -166,14 +184,14 @@ const MasterPageComponent: React.FC<Props> = (props) => {
           >
             {props.language === englishLanguage ? "ughurrag" : "english"}
           </a>
+          <span
+            className={masterPageStyle.themeChanger}
+            style={{ float: "right" }}
+          >
+            <ThemeChanger />
+          </span>
         </Header>
-        <Content
-          style={{
-            margin: "56px 16px 24px 16px",
-            padding: 24,
-            minHeight: 280,
-          }}
-        >
+        <Content className={masterPageStyle.content(props.theme)}>
           {props.children}
         </Content>
       </Layout>
@@ -184,11 +202,15 @@ const MasterPageComponent: React.FC<Props> = (props) => {
 const mapStateToProps = (state: State): StateProps => ({
   isMobile: state.app.isMobile,
   language: state.app.language,
+  theme: state.app.theme,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => ({
   changeLanguage: (language: Languages) => {
     dispatch({ type: ActionTypes.CHANGE_LANGUAGE, payload: language });
+  },
+  changeTheme: (theme: AppTheme) => {
+    dispatch({ type: ActionTypes.CHANGE_THEME, payload: theme });
   },
 });
 
