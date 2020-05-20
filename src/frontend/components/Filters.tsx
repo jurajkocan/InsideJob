@@ -21,7 +21,7 @@ const Filters = (props: Props & RouteComponentProps) => {
     return [];
   };
 
-  const initialValue: [Filters[number][], Filters[number][]] = [[], []];
+  const initialValue: [Filters, Filters] = [[], []];
   const [checkBoxFilters, radioFilters] = props.filters.reduce(
     (acc, filter) => {
       const [checkBoXFilters, radioFilters] = acc;
@@ -36,6 +36,7 @@ const Filters = (props: Props & RouteComponentProps) => {
   );
   return (
     <Drawer
+      width={330}
       title="Filters"
       placement="right"
       closable={false}

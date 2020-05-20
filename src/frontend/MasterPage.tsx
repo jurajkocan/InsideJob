@@ -18,6 +18,7 @@ import { Dispatch } from "redux";
 import { Actions, ActionTypes } from "./redux/ActionTypes";
 import MenuItem from "antd/lib/menu/MenuItem";
 import ThemeChanger from "./components/ThemeChanger";
+import { FormattedMessage } from "react-intl";
 
 const masterPageStyle = {
   slider: style({
@@ -31,7 +32,7 @@ const masterPageStyle = {
       padding: 0,
       position: "fixed",
       width: `calc(100% - ${collapsed ? "80px" : "200px"})`,
-      zIndex: 1,
+      zIndex: 2,
     }),
 
   headerTitle: style(
@@ -144,14 +145,14 @@ const MasterPageComponent: React.FC<Props> = (props) => {
             key="1"
             icon={<SendOutlined translate="" />}
           >
-            Home
+            <FormattedMessage id="menu.home" />
           </Menu.Item>
           <Menu.Item
             onClick={() => props.history.push(Roots.PersonList)}
             key="2"
             icon={<UserOutlined translate="" />}
           >
-            people
+            <FormattedMessage id="menu.people" />
           </Menu.Item>
         </Menu>
       </Sider>
@@ -169,8 +170,7 @@ const MasterPageComponent: React.FC<Props> = (props) => {
             }
           )}
           <span className={masterPageStyle.headerTitle}>
-            {" "}
-            Did you ever hear the tragedy of Darth Plagueis The Wise
+            <FormattedMessage id="header.title" />
           </span>
           <a
             onClick={() => {

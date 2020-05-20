@@ -1,5 +1,5 @@
 const people = {
-  ooohuwhao: "count",
+  oaoohuwhao: "count",
   whwokao: "next",
   akrcwohoahoohuc: "previous",
   rcwochuanaoc: "results",
@@ -13,6 +13,13 @@ const people = {
   rhahrcaoac_roworarc: "birth_year",
   rrwowhwaworc: "gender",
   hurcan: "url",
+  acooscwoohoorcanwa: "homeworld",
+  wwahanscc: "films",
+  cakwooaahwoc: "species",
+  howoacahoaanwoc: "vehicles",
+  caorarccacahakc: "starships",
+  oarcworaaowowa: "created",
+  wowaahaowowa: "edited",
 };
 
 export const remapJson = (json: { [key: string]: any }) => {

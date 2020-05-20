@@ -9,6 +9,7 @@ import dark from "antd/dist/dark-theme";
 // @ts-ignore
 import light from "antd/dist/default-theme";
 import { style } from "typestyle";
+import { FormattedMessage } from "react-intl";
 
 const ThemChangerStyle = {
   switchChild: (checked: boolean) =>
@@ -48,8 +49,8 @@ const ThemeChanger = (props: StateProps & DispatchProps) => {
       className={ThemChangerStyle.switchChild(props.theme === "dark")}
       checked={props.theme === "dark"}
       onChange={(val) => (val ? onDark() : onLight())}
-      checkedChildren="dark side"
-      unCheckedChildren="light side"
+      checkedChildren={<FormattedMessage id="header.dark_side" />}
+      unCheckedChildren={<FormattedMessage id="header.light_side" />}
     />
   );
 };

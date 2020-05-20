@@ -26,10 +26,16 @@ export const swapi = (() => {
   swapiInstance.interceptors.response.use((response) => {
     try {
       if (response.config.params?.format === wookieeLanguage) {
-        response.data = Box(response.data as string)
-          .map((data) => data.replace(/whhuanan/g, "null"))
-          .map((data) => JSON.parse(data))
-          .fold((data) => remapJson(data));
+        // in wookiee format null value is translated. so it can not be parsed to JSON.
+        // need to do fix null value.
+        // also keys are translated. need to translated wookiee keys to english with
+        response.data =
+          typeof response.data === "string"
+            ? Box(response.data as string)
+                .map((data) => data.replace(/whhuanan/g, "null"))
+                .map((data) => JSON.parse(data))
+                .fold((data) => remapJson(data))
+            : remapJson(response.data);
       }
     } catch (err) {
       console.log(err);

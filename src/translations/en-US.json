@@ -12,5 +12,26 @@
   "eye_color": "eye_color",
   "birth_year": "birth_year",
   "gender": "gender",
-  "url": "url"
+  "url": "url",
+  "homeworld": "homeworld",
+  "films": "films",
+  "species": "species",
+  "vehicles": "vehicles",
+  "starships": "starships",
+  "created": "created",
+  "edited": "edited",
+
+  "header.title": "Did you ever hear the tragedy of Darth Plagueis The Wise",
+  "header.light_side": "Light side",
+  "header.dark_side": "Dark side",
+  "menu.home": "Home",
+  "menu.people": "People",
+
+  "people.search_placeholder": "Search name",
+  "people.sort_placeholder": "Sort by",
+  "people.filters": "Filters",
+  "people.remove_filters": "Remove all filters",
+
+  "filters.title": "Wwahanaoworcc",
+"filters.sort_by"
 }

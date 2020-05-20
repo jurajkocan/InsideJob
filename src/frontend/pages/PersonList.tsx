@@ -15,6 +15,7 @@ import { updateQuery, getLastParameterFromUrl } from "src/utils/QueryUtils";
 import { FilterOutlined } from "@ant-design/icons";
 import { responsiveGroupBtn } from "src/style/common";
 import { parse as parseQuery } from "query-string";
+import { FormattedMessage, useIntl } from "react-intl";
 // import { FormattedMessage } from "react-intl";
 
 const userListStyle = {
@@ -36,6 +37,7 @@ type DispatchProps = {
 type Props = StateProps & DispatchProps & RouteComponentProps;
 let currentPage = 1;
 const PersonList = (props: Props) => {
+  const intl = useIntl();
   const [filterVisible, setFilterVisibility] = useState(false);
   const [removeFilterBtnVisible, setRemoveBtnVisibility] = useState(
     !!props.location.search
@@ -58,7 +60,9 @@ const PersonList = (props: Props) => {
         {!props.listFetching && !props.userList ? null : (
           <>
             <Select
-              placeholder="Sort by"
+              placeholder={intl.formatMessage({
+                id: "people.sort_placeholder",
+              })}
               className={responsiveGroupBtn(false)}
               size="large"
               onChange={(value) => {
@@ -83,7 +87,7 @@ const PersonList = (props: Props) => {
               size="large"
               onClick={() => setFilterVisibility(true)}
             >
-              Filters
+              <FormattedMessage id="people.filters" />
             </Button>
           </>
         )}
@@ -97,7 +101,7 @@ const PersonList = (props: Props) => {
               window.location.href = props.location.pathname;
             }}
           >
-            Remove all filters
+            <FormattedMessage id="people.remove_filters" />
           </Button>
         ) : null}
       </div>
