@@ -8,18 +8,31 @@ import { Actions, ActionTypes } from "../redux/ActionTypes";
 import dark from "antd/dist/dark-theme";
 // @ts-ignore
 import light from "antd/dist/default-theme";
-import { style } from "typestyle";
+import { style, media } from "typestyle";
 import { FormattedMessage } from "react-intl";
+import { sm } from "src/style/common";
 
 const ThemChangerStyle = {
   switchChild: (checked: boolean) =>
     style({
       $nest: {
-        span: {
+        "> span": {
           margin: checked ? "0 6px 0 24px" : "0 6px 0 24px",
         },
       },
     }),
+
+  switchText: style(
+    {
+      display: "block",
+    },
+    media(
+      { maxWidth: sm },
+      {
+        display: "none",
+      }
+    )
+  ),
 };
 
 type StateProps = {
@@ -49,8 +62,16 @@ const ThemeChanger = (props: StateProps & DispatchProps) => {
       className={ThemChangerStyle.switchChild(props.theme === "dark")}
       checked={props.theme === "dark"}
       onChange={(val) => (val ? onDark() : onLight())}
-      checkedChildren={<FormattedMessage id="header.dark_side" />}
-      unCheckedChildren={<FormattedMessage id="header.light_side" />}
+      checkedChildren={
+        <span className={ThemChangerStyle.switchText}>
+          <FormattedMessage id="header.dark_side" />
+        </span>
+      }
+      unCheckedChildren={
+        <span className={ThemChangerStyle.switchText}>
+          <FormattedMessage id="header.light_side" />{" "}
+        </span>
+      }
     />
   );
 };

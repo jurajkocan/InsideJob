@@ -91,19 +91,22 @@ const PersonList = (props: Props) => {
             </Button>
           </>
         )}
-        {removeFilterBtnVisible ? (
-          <Button
-            className={responsiveGroupBtn(true)}
-            danger
-            type="primary"
-            size="large"
-            onClick={() => {
-              window.location.href = props.location.pathname;
-            }}
-          >
-            <FormattedMessage id="people.remove_filters" />
-          </Button>
-        ) : null}
+        {
+          // TODO: should not be as page refresh...
+          removeFilterBtnVisible ? (
+            <Button
+              className={responsiveGroupBtn(true)}
+              danger
+              type="primary"
+              size="large"
+              onClick={() => {
+                window.location.href = props.location.pathname;
+              }}
+            >
+              <FormattedMessage id="people.remove_filters" />
+            </Button>
+          ) : null
+        }
       </div>
       <Divider />
       <List

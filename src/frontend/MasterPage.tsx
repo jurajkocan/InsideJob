@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { style, media } from "typestyle";
 import { Roots } from "src/constants/Roots";
-import { sm } from "src/style/common";
+import { sm, primaryColor, xl } from "src/style/common";
 import { connect } from "react-redux";
 import { State, AppTheme } from "./redux/States";
 import { Languages, englishLanguage, wookieeLanguage } from "src/types/Common";
@@ -37,7 +37,7 @@ const masterPageStyle = {
 
   headerTitle: style(
     media(
-      { maxWidth: sm },
+      { maxWidth: xl },
       {
         display: "none",
       }
@@ -52,7 +52,7 @@ const masterPageStyle = {
     transition: "color 0.3s",
     $nest: {
       "&:hover": {
-        color: "#ffffff",
+        color: primaryColor,
       },
     },
   }),
@@ -69,10 +69,12 @@ const masterPageStyle = {
     paddingRight: 24,
   }),
 
-  themeChanger: style({
-    float: "right",
-    marginRight: 12,
-  }),
+  themeChanger: (isMobile: boolean, collapsed: boolean) =>
+    style({
+      float: "right",
+      marginRight: 12,
+      display: isMobile && !collapsed ? "none" : "block",
+    }),
 
   contentLayout: (collapsed: boolean) =>
     style({
@@ -103,6 +105,8 @@ const { Header, Sider, Content } = Layout;
 const MasterPageComponent: React.FC<Props> = (props) => {
   const [collapsed, setCollapsed] = useState(props.isMobile);
 
+  // on mobile device it should close auto after some item is selected
+  // like a classic menu
   if (props.isMobile) {
     useEffect(() => {
       setCollapsed(true);
@@ -134,7 +138,6 @@ const MasterPageComponent: React.FC<Props> = (props) => {
           <img className={masterPageStyle.logo} src={logo} />
         </Link>
         <Menu
-          // theme={props.theme === "light" ? "dark" : "light"}
           theme="light"
           mode="inline"
           selectedKeys={selectedMenuKey}
@@ -185,8 +188,7 @@ const MasterPageComponent: React.FC<Props> = (props) => {
             {props.language === englishLanguage ? "ughurrag" : "english"}
           </a>
           <span
-            className={masterPageStyle.themeChanger}
-            style={{ float: "right" }}
+            className={masterPageStyle.themeChanger(props.isMobile, collapsed)}
           >
             <ThemeChanger />
           </span>

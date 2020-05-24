@@ -1,5 +1,16 @@
 import { media, style, cssRaw } from "typestyle";
 
+export const primaryColor = "#1890ff";
+export const infoColor = primaryColor;
+export const successColor = "#52c41a";
+export const processingColor = primaryColor;
+export const errorColor = "#f5222d";
+export const highlightColor = "#f5222d";
+export const warningColor = "#faad14";
+export const normalColor = "#d9d9d9";
+export const whiteColor = "#fff";
+export const blackColor = "#000";
+
 export const sm = 576;
 export const md = 768;
 export const lg = 992;

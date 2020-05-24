@@ -5,17 +5,18 @@ import { Dispatch } from "redux";
 import { Actions, ActionTypes } from "../redux/ActionTypes";
 import { withRouter, RouteComponentProps } from "react-router";
 import { getLastParameterFromUrl } from "src/utils/QueryUtils";
-import { State } from "../redux/States";
+import { State, AppTheme } from "../redux/States";
 import { Descriptions, Skeleton, Button } from "antd";
 import { style } from "typestyle";
 import { Link } from "react-router-dom";
 import { Roots } from "src/constants/Roots";
+import { FormattedMessage } from "react-intl";
 
 const personDetailStyle = {
   description: style({
     $nest: {
       th: {
-        // backgroundColor: "#1f1f1f !important",
+        backgroundColor: "#1f1f1f !important",
       },
     },
   }),
@@ -24,6 +25,7 @@ const personDetailStyle = {
 type StateProps = {
   person: State["person"]["detail"];
   fetching: State["person"]["personFetching"];
+  theme: AppTheme;
 };
 type DispatchProps = {
   fetchUser: (id: number) => void;
@@ -66,17 +68,26 @@ const PersonDetail = (props: Props) => {
         </>
       ) : (
         <Descriptions
-          className={personDetailStyle.description}
-          title="Peron detail"
+          className={
+            props.theme === "dark" ? personDetailStyle.description : ""
+          }
+          title={<FormattedMessage id="person.title" />}
           bordered
           layout="vertical"
           column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
         >
-          {(Object.keys(person) as Array<keyof typeof person>).map((key) => {
-            return Array.isArray(person[key]) ? null : (
-              <Descriptions.Item label={key}>{person[key]}</Descriptions.Item>
-            );
-          })}
+          {(Object.keys(person) as Array<keyof typeof person>).map(
+            (key, index) => {
+              return Array.isArray(person[key]) ? null : (
+                <Descriptions.Item
+                  key={`description-item-${index}`}
+                  label={key}
+                >
+                  {person[key]}
+                </Descriptions.Item>
+              );
+            }
+          )}
         </Descriptions>
       )}
     </div>
@@ -86,6 +97,7 @@ const PersonDetail = (props: Props) => {
 const mapStateToProps = (state: State): StateProps => ({
   person: state.person.detail,
   fetching: state.person.personFetching,
+  theme: state.app.theme,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => ({

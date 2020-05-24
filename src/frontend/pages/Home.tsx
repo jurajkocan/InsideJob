@@ -1,9 +1,12 @@
 import React from "react";
 import ReactPlayer from "react-player";
+import { FormattedMessage } from "react-intl";
 export default () => {
   return (
     <>
-      <div>Was the destruction of dead star an inside job?</div>
+      <h1>
+        <FormattedMessage id="home.title" />
+      </h1>
       <div>
         <ReactPlayer
           width="100%"

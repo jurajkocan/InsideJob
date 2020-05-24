@@ -22,6 +22,10 @@ export type State = {
   app: AppState;
 };
 
+export type PartialState = {
+  [key in keyof State]?: Partial<State[key]>;
+};
+
 export const defaultState: State = {
   app: {
     isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(

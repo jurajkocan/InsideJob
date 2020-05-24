@@ -21,16 +21,20 @@
   "created": "oarcworaaowowa",
   "edited": "wowaahaowowa",
 
-  "header.title": "Waahwa rooohu wohoworc acworarc aoacwo aorcrarrwowaro ooww wararcaoac akanrarrhuwoahc aoacwo ohahcwo",
+  "header.title": "Waahwa rooohu wohoworc acworarc aoacwo aorcrarrwowaro ooww wararcaoac akanrarrhu",
   "header.light_side": "Anahrracao cahwawo",
   "header.dark_side": "Wararcor cahwawo",
   "menu.home": "Acooscwo",
   "menu.people": "Akwoooakanwo",
+
+  "home.title": "Ohrac aoacwo wawocaorchuoaaoahoowh ooww waworawa caorarc rawh ahwhcahwawo shoorh?",
 
   "people.search_placeholder": "Cworarcoaac whrascwo",
   "people.sort_placeholder": "Coorcao rhro",
   "people.filters": "Wwahanaoworcc",
   "people.remove_filters": "rcwoscoohowo raanan wwahanaoworcc",
 
-  "filters.title": "Filters"
+  "person.title": "Akworccoowh wawoaoraahan",
+
+  "filters.title": "Wwahanaoworcc"
 }

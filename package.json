@@ -8,6 +8,7 @@
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
     "core-js": "^3.6.5",
+    "fp-ts": "^2.6.1",
     "query-string": "^6.12.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
