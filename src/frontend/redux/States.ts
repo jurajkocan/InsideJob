@@ -1,4 +1,7 @@
 import { People, Person } from "src/api/types/People";
+import { Languages } from "src/types/Common";
+
+export type AppTheme = "light" | "dark";
 
 export type PersonState = {
   list: People | null;
@@ -10,6 +13,8 @@ export type PersonState = {
 
 export type AppState = {
   isMobile: boolean;
+  language: Languages;
+  theme: AppTheme;
 };
 
 export type State = {
@@ -17,11 +22,17 @@ export type State = {
   app: AppState;
 };
 
+export type PartialState = {
+  [key in keyof State]?: Partial<State[key]>;
+};
+
 export const defaultState: State = {
   app: {
     isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     ),
+    language: "en-US",
+    theme: "light",
   },
   person: {
     detail: null,

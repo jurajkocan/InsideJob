@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, RouteComponentProps, Link, Route } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Switch } from "antd";
 import logo from "assets/images/logo.png";
 import {
   MenuUnfoldOutlined,
@@ -10,9 +10,15 @@ import {
 } from "@ant-design/icons";
 import { style, media } from "typestyle";
 import { Roots } from "src/constants/Roots";
-import { sm } from "src/style/common";
+import { sm, primaryColor, xl } from "src/style/common";
 import { connect } from "react-redux";
-import { State } from "./redux/States";
+import { State, AppTheme } from "./redux/States";
+import { Languages, englishLanguage, wookieeLanguage } from "src/types/Common";
+import { Dispatch } from "redux";
+import { Actions, ActionTypes } from "./redux/ActionTypes";
+import MenuItem from "antd/lib/menu/MenuItem";
+import ThemeChanger from "./components/ThemeChanger";
+import { FormattedMessage } from "react-intl";
 
 const masterPageStyle = {
   slider: style({
@@ -20,16 +26,18 @@ const masterPageStyle = {
     position: "fixed",
   }),
 
-  header: style({
-    padding: 0,
-    position: "fixed",
-    width: "100%",
-    zIndex: 1,
-  }),
+  header: (collapsed: boolean) =>
+    style({
+      transition: "all 0.2s",
+      padding: 0,
+      position: "fixed",
+      width: `calc(100% - ${collapsed ? "80px" : "200px"})`,
+      zIndex: 2,
+    }),
 
   headerTitle: style(
     media(
-      { maxWidth: sm },
+      { maxWidth: xl },
       {
         display: "none",
       }
@@ -44,7 +52,7 @@ const masterPageStyle = {
     transition: "color 0.3s",
     $nest: {
       "&:hover": {
-        color: "#ffffff",
+        color: primaryColor,
       },
     },
   }),
@@ -55,19 +63,50 @@ const masterPageStyle = {
     maxWidth: "calc(80px - 32px)",
   }),
 
+  language: style({
+    float: "right",
+    cursor: "pointer",
+    paddingRight: 24,
+  }),
+
+  themeChanger: (isMobile: boolean, collapsed: boolean) =>
+    style({
+      float: "right",
+      marginRight: 12,
+      display: isMobile && !collapsed ? "none" : "block",
+    }),
+
   contentLayout: (collapsed: boolean) =>
     style({
       marginLeft: collapsed ? 80 : 200,
+    }),
+
+  content: (theme: AppTheme) =>
+    style({
+      backgroundColor: theme === "light" ? "#fff" : "inherit",
+      margin: "82px 16px 24px 16px",
+      padding: 24,
       minHeight: "calc(100vh - 128px)",
     }),
 };
 
-type StateProps = { isMobile: boolean };
-type Props = StateProps & RouteComponentProps;
+type StateProps = {
+  isMobile: boolean;
+  language: Languages;
+  theme: AppTheme;
+};
+type DispatchProps = {
+  changeLanguage: (language: Languages) => void;
+  changeTheme: (theme: AppTheme) => void;
+};
+
+type Props = StateProps & DispatchProps & RouteComponentProps;
 const { Header, Sider, Content } = Layout;
 const MasterPageComponent: React.FC<Props> = (props) => {
   const [collapsed, setCollapsed] = useState(props.isMobile);
 
+  // on mobile device it should close auto after some item is selected
+  // like a classic menu
   if (props.isMobile) {
     useEffect(() => {
       setCollapsed(true);
@@ -89,6 +128,7 @@ const MasterPageComponent: React.FC<Props> = (props) => {
   return (
     <Layout>
       <Sider
+        theme="light"
         className={masterPageStyle.slider}
         collapsible
         trigger={null}
@@ -98,7 +138,7 @@ const MasterPageComponent: React.FC<Props> = (props) => {
           <img className={masterPageStyle.logo} src={logo} />
         </Link>
         <Menu
-          theme="dark"
+          theme="light"
           mode="inline"
           selectedKeys={selectedMenuKey}
           defaultSelectedKeys={selectedMenuKey}
@@ -108,14 +148,14 @@ const MasterPageComponent: React.FC<Props> = (props) => {
             key="1"
             icon={<SendOutlined translate="" />}
           >
-            Home
+            <FormattedMessage id="menu.home" />
           </Menu.Item>
           <Menu.Item
             onClick={() => props.history.push(Roots.PersonList)}
             key="2"
             icon={<UserOutlined translate="" />}
           >
-            people
+            <FormattedMessage id="menu.people" />
           </Menu.Item>
         </Menu>
       </Sider>
@@ -123,7 +163,7 @@ const MasterPageComponent: React.FC<Props> = (props) => {
         style={{ transition: "margin 0.2s ease" }}
         className={masterPageStyle.contentLayout(collapsed)}
       >
-        <Header className={masterPageStyle.header}>
+        <Header className={masterPageStyle.header(collapsed)}>
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
@@ -133,17 +173,27 @@ const MasterPageComponent: React.FC<Props> = (props) => {
             }
           )}
           <span className={masterPageStyle.headerTitle}>
-            {" "}
-            Did you ever hear the tragedy of Darth Plagueis The Wise
+            <FormattedMessage id="header.title" />
+          </span>
+          <a
+            onClick={() => {
+              props.changeLanguage(
+                props.language === englishLanguage
+                  ? wookieeLanguage
+                  : englishLanguage
+              );
+            }}
+            className={masterPageStyle.language}
+          >
+            {props.language === englishLanguage ? "ughurrag" : "english"}
+          </a>
+          <span
+            className={masterPageStyle.themeChanger(props.isMobile, collapsed)}
+          >
+            <ThemeChanger />
           </span>
         </Header>
-        <Content
-          style={{
-            margin: "56px 16px 24px 16px",
-            padding: 24,
-            minHeight: 280,
-          }}
-        >
+        <Content className={masterPageStyle.content(props.theme)}>
           {props.children}
         </Content>
       </Layout>
@@ -153,6 +203,19 @@ const MasterPageComponent: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: State): StateProps => ({
   isMobile: state.app.isMobile,
+  language: state.app.language,
+  theme: state.app.theme,
 });
 
-export default withRouter(connect(mapStateToProps)(MasterPageComponent));
+const mapDispatchToProps = (dispatch: Dispatch<Actions>): DispatchProps => ({
+  changeLanguage: (language: Languages) => {
+    dispatch({ type: ActionTypes.CHANGE_LANGUAGE, payload: language });
+  },
+  changeTheme: (theme: AppTheme) => {
+    dispatch({ type: ActionTypes.CHANGE_THEME, payload: theme });
+  },
+});
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(MasterPageComponent)
+);

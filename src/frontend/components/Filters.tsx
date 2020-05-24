@@ -4,6 +4,7 @@ import { Filters } from "src/api/types/Filters";
 import { withRouter, RouteComponentProps } from "react-router";
 import { parse as parseQuery } from "query-string";
 import { updateQuery, removeFromQuery } from "src/utils/QueryUtils";
+import { FormattedMessage } from "react-intl";
 
 type Props = {
   isVisible: boolean;
@@ -21,7 +22,7 @@ const Filters = (props: Props & RouteComponentProps) => {
     return [];
   };
 
-  const initialValue: [Filters[number][], Filters[number][]] = [[], []];
+  const initialValue: [Filters, Filters] = [[], []];
   const [checkBoxFilters, radioFilters] = props.filters.reduce(
     (acc, filter) => {
       const [checkBoXFilters, radioFilters] = acc;
@@ -36,9 +37,10 @@ const Filters = (props: Props & RouteComponentProps) => {
   );
   return (
     <Drawer
-      title="Filters"
+      width={330}
+      title={<FormattedMessage id="filters.title" />}
       placement="right"
-      closable={false}
+      closable={true}
       onClose={props.onClose}
       visible={props.isVisible}
     >

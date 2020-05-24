@@ -15,11 +15,15 @@ export const dispatcher = (() => {
           undefined,
           action.payload.filter
         );
+
         dispatch({
           type: ActionTypes.FETCH_PEOPLE_SUCCESS,
           payload: {
             ...response.data,
-            filters: PeopleListFilter, // MOCK FILTERS SINCE THERE ARE NO FILTERS IN API
+            filters:
+              response.config.params?.format === "wookiee"
+                ? PeopleListFilter.wookiee
+                : PeopleListFilter.en, // MOCK FILTERS SINCE THERE ARE NO FILTERS IN API
           },
         });
       } catch (err) {

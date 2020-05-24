@@ -1,6 +1,7 @@
 import { List } from "./List";
 
 export type Person = {
+  [key: string]: any; // for wookie translation, key name change as well...
   name: string;
   height: string;
   mass: string;
