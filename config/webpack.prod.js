@@ -76,7 +76,3 @@ module.exports = merge(baseWebpack, {
     new Visualizer(),
   ],
 });
-
- vendors~app.ff6680d73fb26ccaefe1.js
- vendors~app.ff6680d73fb26ccaefe1.js
- vendors~app.d7622a382827e30f4a36.js
