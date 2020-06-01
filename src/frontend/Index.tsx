@@ -1,5 +1,3 @@
-import "core-js"; // polyfill for ie support
-
 import { render } from "react-dom";
 import App from "./App";
 import { store } from "./redux/Store";
