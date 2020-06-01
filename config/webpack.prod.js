@@ -12,6 +12,9 @@ module.exports = merge(baseWebpack, {
   devtool: false,
   optimization: {
     removeAvailableModules: true,
+    splitChunks: {
+      chunks: "all",
+    },
   },
   output: {
     path: path.resolve(__dirname, "../dist"),
@@ -73,3 +76,7 @@ module.exports = merge(baseWebpack, {
     new Visualizer(),
   ],
 });
+
+ vendors~app.ff6680d73fb26ccaefe1.js
+ vendors~app.ff6680d73fb26ccaefe1.js
+ vendors~app.d7622a382827e30f4a36.js
